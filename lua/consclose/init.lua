@@ -37,7 +37,7 @@ local function getClosingToken(tokens, line)
 	if tok == '' then return else return tok end
 end
 
-_G.consCR = function()
+local consCR = function()
 	if vim.b.consclose_enabled == nil then return '\n' end
 
 	local line = vim.fn.getline('.')
@@ -55,3 +55,15 @@ _G.consCR = function()
 
 	return rTermcodes("\n<Esc>a" .. indent .. token .. "<C-O>O<Esc>a" .. indent .. "<Tab><Esc>A")
 end
+
+if vim.g.conclose_no_mappings ~= null then
+	_G.consCR =  function()
+		return consCR()
+	end
+	opts = {expr = true, noremap = true}
+	vim.api.nvim_set_keymap('i', '<CR>', 'v:lua.consCR()', opts)
+end
+
+return {
+	consCR = consCR
+}
