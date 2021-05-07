@@ -9,21 +9,21 @@ local function strToTokens(tokenStr)
 
 	for char in tokenStr:gmatch"."  do
 		if char == '{' then
-			table.insert(tokens.open, '{')	
-			table.insert(tokens.close, '}')	
+			table.insert(tokens.open, '{')
+			table.insert(tokens.close, '}')
 		elseif char == '[' then
-			table.insert(tokens.open, '[')	
-			table.insert(tokens.close, ']')	
+			table.insert(tokens.open, '[')
+			table.insert(tokens.close, ']')
 		elseif char == '(' then
-			table.insert(tokens.open, '(')	
-			table.insert(tokens.close, ')')	
+			table.insert(tokens.open, '(')
+			table.insert(tokens.close, ')')
 		end
 	end
 	return tokens
 end
 
 local function getClosingToken(tokens, line)
-	tok = ''
+	local tok = ''
 	-- Match tokens only at the end of the line.
 	line = string.match(line, "%p*$")
 	for char in line:gmatch"." do
@@ -56,11 +56,11 @@ local consCR = function()
 	return rTermcodes("\n<Esc>a" .. indent .. token .. "<C-O>O<Esc>a" .. indent .. "<Tab><Esc>A")
 end
 
-if vim.g.conclose_no_mappings ~= null then
+if vim.g.conclose_no_mappings ~= nil then
 	_G.consCR =  function()
 		return consCR()
 	end
-	opts = {expr = true, noremap = true}
+	local opts = {expr = true, noremap = true}
 	vim.api.nvim_set_keymap('i', '<CR>', 'v:lua.consCR()', opts)
 end
 
