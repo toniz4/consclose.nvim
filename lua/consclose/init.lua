@@ -1,7 +1,3 @@
-local rTermcodes = function(str)
-	return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
 local function strToTokens(tokenStr)
 	tokens = {}
 	tokens.open = {}
@@ -53,7 +49,7 @@ local consCR = function()
 	local token = getClosingToken(tokenTable, line)
 	if token == nil then return '\n' end
 
-	return rTermcodes("\n<Esc>a" .. indent .. token .. "<C-O>O<Esc>a" .. indent .. "<Tab><Esc>A")
+	return "\n<Esc>a" .. indent .. token .. "<C-O>O<Esc>a" .. indent .. "<Tab><Esc>A"
 end
 
 if vim.g.conclose_no_mappings ~= nil then
